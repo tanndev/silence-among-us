@@ -411,6 +411,22 @@ class Lobby {
             player.joinGame(name);
         }
 
+        if ((!player || !player.discordId)) {
+            this.textChannel.send(`Hello ${name}, please react to this message`).then(async (message) => {
+                const collector = message.createReactionCollector(() => true, { time: 60000, max: 1 });
+
+                collector.on('collect', async (reaction, user) => {
+                    const member = reaction.message.guild.members.cache.find(member => member.id === user.id);
+                    await this.guildMemberJoin(member, name);
+                    if (message.deletable) {
+                        message.delete().catch(() => {/* Do nothing */});
+                    }
+                });
+
+                collector.on('end', () => { if (message.deletable) message.delete().catch(() => {/* Do nothing */}) });
+            });
+        }
+
         // Update their color.
         player.amongUsColor = color;
 

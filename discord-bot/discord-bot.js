@@ -15,7 +15,8 @@ const client = new Client({
             'GUILDS',
             'GUILD_VOICE_STATES',
             'GUILD_MESSAGES',
-            'DIRECT_MESSAGES'
+            'DIRECT_MESSAGES',
+            'GUILD_MESSAGE_REACTIONS'
         ])
     },
     presence: {
